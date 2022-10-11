@@ -23,10 +23,7 @@ _testmain.go
 *.test
 
 public
-themes/*
 resources
 
 assets/jsconfig.json
 .DS_Store
-
-!.gitkeep
