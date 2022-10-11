@@ -1,3 +1,3 @@
 [submodule "themes/stack"]
 	path = themes/stack
-	url = https://github.com/MegaOwIer/hugo-theme-stack.git
+	url = git@github.com:MegaOwIer/hugo-theme-stack.git
