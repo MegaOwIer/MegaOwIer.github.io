@@ -1,16 +1,21 @@
 ---
-title: "2020 ICPC Macau Regional (Gym 103119) 训练记录"
+title: 2020 ICPC Macau Regional (Gym 103119) 训练记录
 slug: gym-103119
 date: 2022-03-27T03:35:00+08:00
-tags: ['Constructive Problems', 'Data Structure', 'Maths']
-categories: ['ICPC']
-description: "澳门站打星参赛前的临阵磨枪"
+lastmod: 2022-05-02T21:48:56+08:00
+
+tags:
+  - Constructive Problems
+  - Data Structure
+  - Maths
+categories:
+  - ICPC
+
+description: 澳门站打星参赛前的临阵磨枪
 draft: false
 ---
 
 上周澳门站确定线上之后第一时间找我们队长要了一个澳门的打星名额，好巧不巧最后还真就申下来了。那正巧趁着打比赛之前做套题找找手感 ~~，结果被按在地上摩擦~~。
-
-<!-- more -->
 
 ## A. Accelerator
 
@@ -49,7 +54,7 @@ $$
 做题的时候因为没想到 $d > \frac{n}{2}$ 的情况被罚了几发罚时，感觉有点亏。
 
 
-<hr />
+---
 
 比赛中队友还切掉了 G 和 L，那些题我开都没开就不乱云了。
 
@@ -59,7 +64,7 @@ $$
 
 然后 L 没写完，C 也完全不知道错在哪，就这样五个小时到了（
 
-<hr />
+---
 
 ## C. Club Assignment
 
@@ -81,8 +86,301 @@ $$
 
 3 的反例则比较微妙。等以后有时间了配几张图展开说说。
 
-这里给出[代码实现](/downloads/code/icpc-2020-macau/C.cpp)。
+这里给出一个参考代码实现。
+
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Trie {
+    Trie *son[2];
+    int siz;
+    bool visited;
+    vector<int> numbers, position;
+
+    Trie() : siz(0), visited(false) {
+        son[0] = son[1] = nullptr;
+    }
+    ~Trie() {
+        for(auto u : son) {
+            if(u) delete u;
+        }
+    }
+};
+
+void insert(Trie *&o, int val, int dep, int pos) {
+    if(dep < 0) {
+        return;
+    }
+    if(!o) o = new Trie;
+    if(o->numbers.size() < 4) {
+        o->numbers.push_back(val);
+        o->position.push_back(pos);
+    }
+    o->siz += 1;
+    insert(o->son[(val >> dep) & 1], val, dep - 1, pos);
+}
+
+int calc(vector<int> &arr, int S) {
+    int res = numeric_limits<int>::max();
+    for(size_t i = 0; i < arr.size(); i++) if((S >> i) & 1) {
+        for(size_t j = 0; j < arr.size(); j++) if((S >> j) & 1) {
+            if(i != j) {
+                res = min(res, arr[i] ^ arr[j]);
+            }
+        }
+    }
+    return res;
+}
+
+bool dfs1(Trie *o, int &ans, string &result) {
+    bool flag = true, is_leaf = true;
+    for(Trie *v : o->son) if(v) {
+        flag = dfs1(v, ans, result) && flag;
+        is_leaf = false;
+    }
+    if(flag && o->siz >= 3) {
+        o->visited = true;
+        if(o->siz > 4) {
+            ans = 0;
+            return false;
+        }
+        int cur_res = -1;
+
+        int S = (1 << o->siz) - 1;
+        int max_S = 0;
+        for(int k = S; k > 0; k = (k - 1) & S) {
+            int r = S ^ k;
+            int qwq = min(calc(o->numbers, k), calc(o->numbers, r));
+            if(qwq > cur_res) {
+                cur_res = qwq;
+                max_S = k;
+            }
+        }
+        for(int i = 0; i < o->siz; i++) if((max_S >> i) & 1) {
+            result[o->position[i]] = '2';
+        }
+
+        ans = min(ans, cur_res);
+    }
+    return o->siz < 3;
+}
+
+bool dfs2(Trie *o, string &result) {
+    if(o->visited) {
+        return false;
+    }
+    
+    bool flag = true;
+    for(Trie *v : o->son) if(v) {
+        flag = dfs2(v, result) && flag;
+    }
+    if(flag && o->siz == 2) {
+        result[o->position.back()] = '2';
+    }
+    return o->siz < 2;
+}
+
+void solve() {
+    int n;
+    cin >> n;
+
+    Trie *root = nullptr;
+    for(int i = 0; i < n; i++) {
+        int val;
+        cin >> val;
+        insert(root, val, 29, i);
+    }
+
+    int ans = numeric_limits<int>::max();
+    string result(n, '1');
+    dfs1(root, ans, result);
+    dfs2(root, result);
+
+    cout << ans << "\n" << result << "\n";
+    delete root;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int t;
+    cin >> t;
+    while(t--) {
+        solve();
+    }
+
+    return 0;
+}
+```
 
 ## J. Jewel Grab
 
-展开讲暂时咕着。这里先给出[代码实现](/downloads/code/icpc-2020-macau/J.cpp)。
+一个很平凡的线段树上二分的题。十分好想且十分难写。这里先给出代码实现，之后也许会专门写一篇文章说说这类问题。
+
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+
+using LL = long long;
+using Points = vector<pair<int, int>>;
+
+struct segTree {
+    Points links;
+    LL sum;
+};
+
+const int MX = 200005;
+
+segTree tr[MX << 2];
+
+vector<int> c, v;
+set<int> positons[MX];
+
+void merge(Points &o, const Points &l, const Points &r) {
+    o.resize(l.size() + r.size());
+    std::merge(l.begin(), l.end(), r.begin(), r.end(), o.begin(), [] (pair<int, int> u, pair<int, int> v) {
+        return u.second == v.second ? u.first < v.first : u.second < v.second;
+    });
+    if(o.size() > 11) {
+        o.resize(11);
+    }
+}
+
+void maintain(int o) {
+    int l = o * 2, r = o * 2 + 1;
+    tr[o].sum = tr[l].sum + tr[r].sum;
+    merge(tr[o].links, tr[l].links, tr[r].links);
+}
+
+void build(int l, int r, int id) {
+    if(l == r) {
+        tr[id].links = { make_pair(l, *positons[c[l]].upper_bound(l)) };
+        tr[id].sum = v[l];
+        return;
+    }
+    int mid = (l + r) / 2;
+    build(l, mid, id * 2);
+    build(mid + 1, r, id * 2 + 1);
+    maintain(id);
+}
+
+void modify(int l, int r, int id, int pos, int nxt, int val) {
+    if(l == r) {
+        tr[id].sum = (val == -1) ? tr[id].sum : val;
+        tr[id].links = { make_pair(pos, nxt) };
+        return;
+    }
+    int mid = (l + r) / 2;
+    if(pos <= mid) modify(l, mid, id * 2, pos, nxt, val);
+    if(pos > mid) modify(mid + 1, r, id * 2 + 1, pos, nxt, val);
+    maintain(id);
+}
+
+int get_Kth(const Points &pts, int k) {
+    k = min<int>(k, pts.size());
+    return pts[k - 1].second;
+}
+
+bool solve(int l, int r, int id, int L, int &R, LL &ans, Points &links, int K) {
+    if(l >= L) {
+        Points tmp;
+        merge(tmp, links, tr[id].links);
+        if(get_Kth(tmp, K + 1) - 1 >= r) {
+            R = r;
+            links = tmp;
+            ans += tr[id].sum;
+            return true;
+        }
+    }
+    if(l == r) return false;
+    int mid = (l + r) / 2;
+    if(L <= mid) {
+        return solve(l, mid, id * 2, L, R, ans, links, K) &&
+               solve(mid + 1, r, id * 2 + 1, L, R, ans, links, K);
+    } else {
+        return solve(mid + 1, r, id * 2 + 1, L, R, ans, links, K);
+    }
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    cin >> n >> m;
+
+    for(int i = 1; i <= n; i++) {
+        positons[i].insert(n + 1);
+    }
+
+    c.resize(n + 1);
+    v.resize(n + 1);
+    for(int i = 1; i <= n; i++) {
+        cin >> c[i] >> v[i];
+        positons[c[i]].insert(i);
+    }
+
+    build(1, n, 1);
+
+    while(m--) {
+        int op;
+        cin >> op;
+        if(op == 1) {
+            int x, new_c, new_v;
+            cin >> x >> new_c >> new_v;
+
+            int old_c = c[x];
+
+            auto old_c_prev_pos = positons[old_c].find(x);
+            auto old_c_next_pos = next(old_c_prev_pos);
+            if(old_c_prev_pos != positons[old_c].begin()) {
+                old_c_prev_pos = prev(old_c_prev_pos);
+                modify(1, n, 1, *old_c_prev_pos, *old_c_next_pos, -1);
+            }
+            positons[old_c].erase(x);
+
+            auto new_c_next_pos = positons[new_c].upper_bound(x);
+            auto new_c_prev_pos = prev(new_c_next_pos);
+            if(new_c_next_pos != positons[new_c].begin()) {
+                modify(1, n, 1, *new_c_prev_pos, x, -1);
+            }
+            modify(1, n, 1, x, *new_c_next_pos, new_v);
+            positons[new_c].insert(x);
+
+            c[x] = new_c, v[x] = new_v;
+        } else {
+            int s, k;
+            cin >> s >> k;
+
+            Points cur_res;
+            LL ans = 0;
+            int R = s;
+            solve(1, n, 1, s, R, ans, cur_res, k);
+
+            map<int, int> value;
+            set<int> vis;
+
+            auto update = [&] (int pos) {
+                if(vis.count(pos)) return;
+                vis.insert(pos);
+
+                int color = c[pos];
+                value[color] = max(value[color], v[pos]);
+                ans -= v[pos];
+            };
+
+            for(auto &[pos, nxt] : cur_res) {
+                update(pos);
+                if(nxt <= R) update(nxt);
+            }
+
+            for(auto &tmp : value) ans += tmp.second;
+            cout << ans << "\n";
+        }
+    }
+
+    return 0;
+}
+```

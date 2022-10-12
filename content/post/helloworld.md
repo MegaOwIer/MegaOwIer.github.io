@@ -1,8 +1,9 @@
 ---
-title: "Hello World"
+title: Hello World
 slug: hello-world
 date: 2021-08-25T00:00:00+08:00
 draft: false
+lastmod: 2022-10-12T01:59:11.381Z
 ---
 
 鸽了好几年了，总算是把这个博客搭起来了…

@@ -1,10 +1,14 @@
 ---
-title: "校园网 IPv6 免流量上网配置过程记录"
-slug: "proxy-conf"
+title: 校园网 IPv6 免流量上网配置过程记录
+slug: proxy-conf
 date: 2022-10-11T03:46:15+08:00
+lastmod: 2022-10-11T03:46:15+08:00
 
-tags: ['Shadowsocks', 'Linux']
-categories: ['MISC']
+tags:
+  - Shadowsocks
+  - Linux
+categories:
+  - MISC
 
 description: ""
 draft: false
