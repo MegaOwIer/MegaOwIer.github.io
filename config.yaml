@@ -78,7 +78,7 @@ params:
     provider: gitalk
     gitalk:
       owner: MegaOwIer
-      admin: ["MegaOwIer"]
+      admin: MegaOwIer
       repo: MegaOwIer.github.io
       clientID: __clientID__
       clientSecret: __clientSecret__ 
