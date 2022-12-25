@@ -1,7 +1,7 @@
 ---
-title: Stein Complex Analysis 复分析第三章习题（Exercises）解答
+title: Stein Complex Analysis 复分析第三章复习提纲与习题（Exercises）解答
 slug: stein-chapter-3
-date: 2022-12-25T10:50:42.633Z
+date: 2022-12-25
 
 tags:
   - Complex Analysis
@@ -9,10 +9,10 @@ categories:
   - Mathematics
   - RUC
 
-description: 复变课的作业记录以及习题课笔记
+description: 复变课的作业记录以及期末习题课的笔记
 draft: false
 
-lastmod: 2022-12-25T10:50:42.633Z
+lastmod: 2022-12-26
 ---
 
 ## 用留数定理计算实积分
@@ -78,6 +78,48 @@ lastmod: 2022-12-25T10:50:42.633Z
 **Picard 大定理**：若 $f$ 为全纯函数，$\omega$ 为其本性奇点，则对 $\omega$ 的任意开邻域 $\Omega$，至多存在一个 $z_0 \in \mathbb{C}$ 使得 $f^{-1}(z_0) \cap \Omega$ 是有限集（或空集）。
 
 例如，对于函数 $f(z) = e^{1/z}$ 而言 Picard 大定理中的 $z_0 = 0$。
+
+## 含无穷远点的柯西积分公式
+
+> **定理**：设 $C$ 是扩展复平面 $\overline{\mathbb{C}}$ 上一条不经过点 $\infty$ 的曲线，$D$ 是其包含无穷远点的一侧，$f$ 在 $D$ 上全纯且可连续延拓到 $C$ 上，则
+>
+> $$
+> \begin{equation*}
+>   \frac{1}{2\pi i} \int_{C^{-}} \frac{f(\xi)}{\xi - z} \textrm{d} \xi = \begin{cases}
+>     f(z) - f(\infty), & z \in D \\
+>     - f(\infty), & z \notin \overline{D}
+>   \end{cases}
+> \end{equation*}
+> $$
+
+利用上述结论可以简化一些积分的计算。
+
+> **例**：求积分
+> $$ \int_{C} \frac{\textrm{d}z}{(z - 1)(z - 3)\cdots(z - 2023)} $$
+> 其中 $C$ 是以 $0$ 为圆心，$2022$ 为半径的正向圆周。
+
+通常的求解方式是计算出被积函数在 $2k + 1$ 处的留数并求和，并通过观察发现这些留数可两两抵消以简化计算结果。
+
+实际上，我们还可以取
+
+$$
+f(z) = \frac{1}{(z - 1)(z - 3)\cdots(z - 2021)}
+$$
+
+则由上述定理可知
+
+$$
+\frac{1}{2\pi i} \int_{C^{-}} \frac{f(\xi)}{\xi - 2023} \textrm{d} \xi
+= f(2023) = \frac{1}{2022!!}
+$$
+
+从而所求积分
+
+$$
+\int_{C} \frac{\textrm{d}z}{(z - 1)(z - 3)\cdots(z - 2023)}
+= - \int_{C^{-}} \frac{f(\xi)}{\xi - 2023} \textrm{d} \xi
+= - \frac{2\pi i}{2022!}
+$$
 
 ## $\cot \pi z$ 的有界性
 
