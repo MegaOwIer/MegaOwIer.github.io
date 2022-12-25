@@ -80,8 +80,8 @@ params:
       owner: MegaOwIer
       admin: ["MegaOwIer"]
       repo: MegaOwIer.github.io
-      clientID: 31eff98a35fdd97057c0
-      clientSecret: 6472eeef960f8c45d00c25b6614a85c6e11357db 
+      clientID: __clientID__
+      clientSecret: __clientSecret__ 
 
   widgets:
     homepage:
