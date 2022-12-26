@@ -12,7 +12,7 @@ categories:
 description: 复变课的作业记录以及期末习题课的笔记
 draft: false
 
-lastmod: 2022-12-26
+lastmod: 2022-12-27
 ---
 
 ## 用留数定理计算实积分
@@ -21,9 +21,9 @@ lastmod: 2022-12-26
 
 ### 三角函数相关积分
 
-对于形如 $\displaystyle \int_{0}^{2\pi} R(\cos \theta, \sin \theta) \textrm{d} \theta$ 的积分，可以考虑通过换元 $z = e^{i \theta}$ 讲实积分转换回沿复平面上单位圆圈的积分。参照 Exercise 7 和 8。
+对于形如 $\displaystyle \int_{0}^{2\pi} R(\cos \theta, \sin \theta) \textrm{d} \theta$ 的积分，可以考虑通过换元 $z = e^{i \theta}$ 讲实积分转换回沿复平面上单位圆圈的积分。参考 Exercise 7 和 8。
 
-此外，如果被积函数是 $f(z) \sin z$ 的形式，可以考虑对 $f(z) e^{iz}$ 求积分然后考察其虚部。
+此外，如果被积函数是 $f(z) \sin z$ 的形式，可以考虑对 $f(z) e^{iz}$ 求积分然后考察其虚部。参考 Exercise 3 和 4。
 
 ### 一些结论
 
@@ -65,9 +65,9 @@ lastmod: 2022-12-26
 
 ### 有理函数相关的积分
 
-计算形如 $\displaystyle \int_{-\infty}^{+\infty} \dfrac{P(x)}{Q(x)} \textrm{d} x$ 的积分时，可以考虑以上半圆周为辅助曲线，应用前述引理 1 解决。
+计算形如 $\displaystyle \int_{-\infty}^{+\infty} \dfrac{P(x)}{Q(x)} \textrm{d} x$ 的积分时，可以考虑以上半圆周为辅助曲线，应用前述引理 1 解决。参考 Exercise 2 和 6。
 
-计算形如 $\displaystyle \int_{-\infty}^{+\infty} \dfrac{P(x)}{Q(x)} e^{imx} \textrm{d} x$ 的积分时，可以考虑以上半圆周为辅助曲线，应用前述引理 2 解决。
+计算形如 $\displaystyle \int_{-\infty}^{+\infty} \dfrac{P(x)}{Q(x)} e^{imx} \textrm{d} x$ 的积分时，可以考虑以上半圆周为辅助曲线，应用前述引理 2 解决。参考 Exercise 3 和 4。
 
 ## Picard 定理
 
@@ -92,7 +92,7 @@ lastmod: 2022-12-26
 > \end{equation*}
 > $$
 
-利用上述结论可以简化一些积分的计算。
+利用这一结论可以简化一些积分的计算。
 
 > **例**：求积分
 > $$ \int_{C} \frac{\textrm{d}z}{(z - 1)(z - 3)\cdots(z - 2023)} $$
@@ -118,7 +118,7 @@ $$
 $$
 \int_{C} \frac{\textrm{d}z}{(z - 1)(z - 3)\cdots(z - 2023)}
 = - \int_{C^{-}} \frac{f(\xi)}{\xi - 2023} \textrm{d} \xi
-= - \frac{2\pi i}{2022!}
+= - \frac{2\pi i}{2022!!}
 $$
 
 ## $\cot \pi z$ 的有界性
@@ -155,6 +155,6 @@ $$
 
 ## 习题解答
 
-下面给出第三章 Exercises 1-22 的解答。
+下面是第三章 Exercises 1-22 的解答。
 
 {{< embed-pdf url="/post/stein-chapter-3/chpt-3-ex.pdf" hidePaginator="false" >}}
