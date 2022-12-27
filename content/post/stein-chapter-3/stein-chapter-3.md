@@ -86,7 +86,7 @@ lastmod: 2022-12-27
 > $$
 > \begin{equation*}
 >   \frac{1}{2\pi i} \int_{C^{-}} \frac{f(\xi)}{\xi - z} \textrm{d} \xi = \begin{cases}
->     f(z) - f(\infty), & z \in D \\
+>     f(z) - f(\infty), & z \in D \newline
 >     - f(\infty), & z \notin \overline{D}
 >   \end{cases}
 > \end{equation*}
@@ -147,7 +147,7 @@ $$
 \begin{align*}
   |\cot \pi z|
   &= \left| \frac{e^{i \pi z} + e^{-i \pi z}}{e^{i \pi z} - e^{-i \pi z}} \right|
-  \leq 1 + \frac{2}{|e^{2i \pi z} - 1|} \\\\
+  \leq 1 + \frac{2}{|e^{2i \pi z} - 1|} \newline
   &\leq 1 + \frac{2}{|\operatorname{Re} (e^{2i \pi z} - 1)|}
   = 1 + \frac{2}{1 - e^{-2\pi y} \cos (2\pi x)} < 3
 \end{align*}
@@ -158,3 +158,42 @@ $$
 下面是第三章 Exercises 1-22 的解答。
 
 {{< embed-pdf url="/post/stein-chapter-3/chpt-3-ex.pdf" hidePaginator="false" >}}
+
+## 补充题
+
+### 例 1
+
+> 设 $f$ 为复平面 $\mathbb{C}$ 上的亚纯函数且满足 $|f(z)| \leq \left( \dfrac{2|z|}{|z - 1|} \right)^{3/2}$，则 $f$ 取常值 $0$。
+
+记 $g(z) = \left( \dfrac{2z}{z - 1} \right)^{3/2}$。注意到当 $|z| \to +\infty$ 时有 $|g(z)| \to 2\sqrt{2}$，因此 $f$ 在无穷远点处有可去极点，进而 $f$ 在扩展复平面 $\overline{\mathbb{C}}$ 上亚纯，即 $f$ 是有理函数。
+
+由题目中给出的控制条件可知 $f$ 必然有零点 $z = 0$，且极点只可能有 $z = 1$，即 $f(z) = c \cdot \dfrac{z^m h(z)}{(z - 1)^n}$，其中 $h$ 是多项式且满足 $h(0) = 1$。
+
+当 $n = 0$ 时，由 $\infty$ 处的控制条件可知 $z^mh(z) = 1$，即 $f$ 取常值。又由 $|f(0)| = 0$ 可知 $f$ 恒为 $0$。
+
+当 $n = 1$ 时，由 $\infty$ 处的控制条件可知 $z^mh(z)$ 为至多 $1$ 次的多项式，即 $f$ 取常值。又由 $|f(0)| = 0$ 可知必然有 $m = 1$ 以及 $h(z) = 1$，即 $f(z) = \dfrac{cz}{z - 1}$。但当 $z$ 在 $0$ 附近时总会有 $|f| > |g|$，矛盾。
+
+当 $n \geq 2$ 时，不难发现当 $z$ 在 $1$ 附近时总会有 $|f| > |g|$，矛盾。
+
+综上，$f$ 只能取常值 $0$。
+
+### 例 2
+
+> 设幂级数 $f(z) = \displaystyle\sum_{k \geq 0}a_kz^k$ 收敛半径为 $1$，且在单位圆圈上仅有一个单极点。证明：幂级数 $f$ 的系数序列有界。
+
+不妨设 $f$ 在圆周上的单极点为 $z_0$，则存在 $c \in \mathbb{C}$ 使得 $f(z) - \dfrac{c}{z - z_0}$ 在单位闭圆盘 $\overline{\mathbb{D}}$ 上解析。
+
+因此存在一个收敛到 $0$ 的序列 $\\{ b_n \\}$ 使得
+
+$$
+f(z) = \sum_{k \geq 0} b_k z^k + \frac{c}{z - z_0}
+= \sum_{k \geq 0} \left( b_k - \frac{c}{z_0^{k+1}} \right) z^k
+$$
+
+这就表明
+
+$$
+a_k = b_k - \frac{c}{z_0^{k+1}}
+$$
+
+再由 $b_n \to 0$ 以及 $|z_0| = 1$ 即可推出 $|a_k|$ 有界。
