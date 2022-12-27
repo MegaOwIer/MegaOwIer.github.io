@@ -75,13 +75,23 @@ params:
 
   comments:
     enabled: true
-    provider: gitalk
+    provider: giscus
     gitalk:
       owner: MegaOwIer
       admin: MegaOwIer
       repo: MegaOwIer.github.io
       clientID: __clientID__
-      clientSecret: __clientSecret__ 
+      clientSecret: __clientSecret__
+    giscus:
+      repo: MegaOwIer/MegaOwIer.github.io
+      repoID: R_kgDOIL05cA
+      category: Comments
+      categoryID: DIC_kwDOIL05cM4CTSHc
+      mapping: title
+      lightTheme:
+      darkTheme:
+      reactionsEnabled: 1
+      emitMetadata: 0
 
   widgets:
     homepage:
