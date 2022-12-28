@@ -41,11 +41,9 @@ jobs:
           extended: true
       - name: Setup Gitalk
         env:
-          CID: ${{ secrets.clientID }}
-          CSEC: ${{ secrets.clientSecret }}
+          GAID: ${{ secrets.googleAnalytics }}
         run: |
-          sed -i 's/__clientID__/'$CID'/g' config.yaml &&
-          sed -i 's/__clientSecret__/'$CSEC'/g' config.yaml
+          sed -i 's/__googleAnalytics__/'$GAID'/g' config.yaml
       - name: Build
         run: hugo --minify
       - name: Upload artifact
