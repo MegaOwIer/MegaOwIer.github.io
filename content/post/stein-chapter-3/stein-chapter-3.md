@@ -12,7 +12,7 @@ categories:
 description: 复变课的作业记录以及期末习题课的笔记
 draft: false
 
-lastmod: 2022-12-27
+lastmod: 2023-1-6
 ---
 
 ## 用留数定理计算实积分
@@ -21,7 +21,7 @@ lastmod: 2022-12-27
 
 ### 三角函数相关积分
 
-对于形如 $\displaystyle \int_{0}^{2\pi} R(\cos \theta, \sin \theta) \textrm{d} \theta$ 的积分，可以考虑通过换元 $z = e^{i \theta}$ 讲实积分转换回沿复平面上单位圆圈的积分。参考 Exercise 7 和 8。
+对于形如 $\displaystyle \int_{0}^{2\pi} R(\cos \theta, \sin \theta) \textrm{d} \theta$ 的积分，可以考虑通过换元 $z = e^{i \theta}$ 将实积分转换回沿复平面上单位圆圈的积分。参考 Exercise 7 和 8。
 
 此外，如果被积函数是 $f(z) \sin z$ 的形式，可以考虑对 $f(z) e^{iz}$ 求积分然后考察其虚部。参考 Exercise 3 和 4。
 
