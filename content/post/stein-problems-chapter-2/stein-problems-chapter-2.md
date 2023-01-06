@@ -10,7 +10,7 @@ categories:
   - RUC
 
 description: 复变课的作业记录以及期末习题课的笔记
-draft: true
+draft: false
 
 lastmod: 2023-1-6
 ---
