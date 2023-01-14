@@ -1,7 +1,7 @@
 ---
 title: "[HDU 6758] Integral Calculus 的一种推式子方法"
 slug: hdu-6785
-date: 2021-08-25T01:00:00+08:00
+date: 2021-08-25
 
 tags:
   - Maths
@@ -12,8 +12,8 @@ categories:
 description: 一个有趣的生成函数推导问题
 draft: false
 
-image: ../covers/hdu-6785.jpg
-lastmod: 2022-10-12T01:58:30.687Z
+# image: ./pixiv-65053285.jpg
+lastmod: 2022-10-12
 ---
 
 暑假总算是有时间来继续看看《具体数学》，发现提到了 $\zeta$ 函数，于是就想起去年多校有一道比较神仙但我并不是很会的题。今天在翻出来看看，貌似找到了一种相对自然的推导过程。

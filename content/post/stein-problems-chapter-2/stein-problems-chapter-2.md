@@ -12,7 +12,7 @@ categories:
 description: 复变课的作业记录以及期末习题课的笔记
 draft: false
 
-lastmod: 2023-1-6
+lastmod: 2023-01-06
 ---
 
 ## 问题解答

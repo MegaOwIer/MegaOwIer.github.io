@@ -1,8 +1,7 @@
 ---
-title: 2020 ICPC Macau Regional (Gym 103119) 训练记录
-slug: gym-103119
-date: 2022-03-27T03:35:00+08:00
-lastmod: 2022-05-02T21:48:56+08:00
+title: 2020 ICPC 澳门站 (Gym 103119) 训练记录
+slug: cf-gym-103119
+date: 2022-03-27
 
 tags:
   - Constructive Problems
@@ -13,6 +12,9 @@ categories:
 
 description: 澳门站打星参赛前的临阵磨枪
 draft: false
+
+image: pixiv-65053285.jpg
+lastmod: 2022-05-02
 ---
 
 上周澳门站确定线上之后第一时间找我们队长要了一个澳门的打星名额，好巧不巧最后还真就申下来了。那正巧趁着打比赛之前做套题找找手感 ~~，结果被按在地上摩擦~~。
