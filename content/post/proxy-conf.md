@@ -1,8 +1,8 @@
 ---
 title: 校园网 IPv6 免流量上网配置过程记录
 slug: proxy-conf
-date: 2022-10-11T03:46:15+08:00
-lastmod: 2022-10-11T03:46:15+08:00
+date: 2022-10-11
+lastmod: 2023-01-22
 
 tags:
   - Shadowsocks
@@ -63,7 +63,7 @@ sudo ssserver -c ~/.local/shadowsocks/config.json -d start
 
 在运行 `ssserver` 时可能会遇到如下报错：
 
-```sh
+```sh {hl_lines=["9-11"]}
 $ ssserver --help
 Traceback (most recent call last):
   File "/usr/local/bin/ssserver", line 5, in <module>
