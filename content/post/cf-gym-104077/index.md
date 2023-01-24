@@ -16,7 +16,7 @@ description: 为我的算法竞赛筹划一场尽量完美的告别仪式。
 draft: false
 
 image: pixiv-59808576.jpg
-lastmod: 2023-01-15
+lastmod: 2023-01-24
 ---
 
 ## 正式训练
@@ -31,66 +31,7 @@ lastmod: 2023-01-15
 
 时间复杂度 $O(\log 10^{18})$。
 
-```c++
-#include <bits/stdc++.h>
-using namespace std;
- 
-using LL = long long;
- 
-int solve() {
-    LL x, y;
-    cin >> x >> y;
- 
-    vector<int> a, b;
-    while(x) {
-        a.push_back(x % 3);
-        x /= 3;
-    }
-    while(y) {
-        b.push_back(y % 3);
-        y /= 3;
-    }
- 
-    while(a.size() < b.size()) {
-        a.push_back(0);
-    }
-    reverse(a.begin(), a.end());
-    reverse(b.begin(), b.end());
- 
-    int pref = 0;
-    size_t i = 0;
-    while(i < b.size() && a[i] == b[i]) {
-        pref += b[i] + 1;
-        i++;
-    }
- 
-    int ans = 0;
-    while(i < b.size()) {
-        if(i == 0 && b[i] == 1) {
-            ans = max<int>(ans, pref + 3 * (b.size() - i - 1));
-        } else {
-            ans = max<int>(ans, pref + b[i] + 3 * (b.size() - i - 1));
-        }
-        pref += b[i] + 1;
-        i++;
-    }
- 
-    return max(pref, ans);
-}
- 
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
- 
-    int t;
-    cin >> t;
-    while(t--) {
-        cout << solve() << "\n";
-    }
-    return 0;
-}
-
-```
+{{< highlight-content file="E.cpp" lang="cpp" >}}
 
 ### L. Tree
 
@@ -102,80 +43,7 @@ int main() {
 
 时间复杂度可以做到 $O(n)$，训练时我图省事用 `std::set` 动态维护最小值，复杂度挂了个 $\log$。
 
-```c++
-#include <bits/stdc++.h>
-using namespace std;
- 
-const int MX =  1000005;
- 
-vector<int> G[MX];
-int dep[MX], son[MX];
-bool vis[MX];
- 
-void dfs(int u) {
-    int cur = 0, ss = -1;
-    for(int v : G[u]) {
-        dfs(v);
-        if(dep[v] > cur) {
-            cur = dep[v];
-            ss = v;
-        }
-    }
-    dep[u] = cur + 1;
-    son[u] = ss;
-}
- 
-int solve() {
-    int n;
-    cin >> n;
- 
-    for(int i = 1; i <= n; i++) {
-        G[i].clear();
-    }
-    memset(vis + 1, false, sizeof(bool[n]));
- 
-    for(int i = 2; i <= n; i++) {
-        int fa;
-        cin >> fa;
-        G[fa].push_back(i);
-    }
- 
-    dfs(1);
- 
-    set<pair<int, int>, greater<pair<int, int>>> nodes;
-    for(int i = 1; i <= n; i++) {
-        nodes.emplace(dep[i], i);
-    }
- 
-    int ans = dep[1], cnt = 0;
-    while(!nodes.empty()) {
-        int u = nodes.begin() -> second;
- 
-        while(u != -1) {
-            nodes.erase(make_pair(dep[u], u));
-            u = son[u];
-        }
- 
-        cnt++;
-        ans = min(ans, cnt + nodes.begin()->first);
-    }
- 
-    return ans;
-}
- 
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
- 
-    int t;
-    cin >> t;
-    while(t--) {
-        cout << solve() << "\n";
-    }
-    return 0;
-}
-
-```
+{{< highlight-content file="L.cpp" lang="cpp" >}}
 
 ### B. Cells Coloring
 
@@ -185,161 +53,7 @@ int main() {
 
 时间复杂度大概是 $O(n^3 \log n)$。
 
-```c++
-#include <bits/stdc++.h>
-using namespace std;
-
-template<typename flow_t = int>
-struct MaxFlow_ISAP {
-    const flow_t MAX_VAL = numeric_limits<flow_t>::max();
-
-    struct edge_t {
-        int to, rev;
-        flow_t f;
-        edge_t() {}
-        edge_t(int _t, int _r, flow_t _f) : to(_t), rev(_r), f(_f) {}
-    };
-
-    vector<vector<edge_t>> G;
-    vector<typename vector<edge_t>::iterator> cur;
-    int V;
-    vector<int> gap, dep;
-
-    MaxFlow_ISAP(int v) : G(v + 1), cur(v + 1), V(v) {}
-
-    void add_edge(int u, int v, flow_t f) {
-        G[u].emplace_back(v, G[v].size(), f);
-        G[v].emplace_back(u, G[u].size() - 1, 0);
-    }
-
-    void BFS(int T) {
-        gap.assign(V + 2, 0);
-        dep.assign(V + 1, 0);
-        queue<int> Q;
-        Q.push(T), ++gap[dep[T] = 1];
-        while(!Q.empty()) {
-            int u = Q.front();
-            Q.pop();
-            for(edge_t &e : G[u]) {
-                int v = e.to;
-                if(dep[v]) continue;
-                Q.push(v), ++gap[dep[v] = dep[u] + 1];
-            }
-        }
-    }
-
-    flow_t dfs(int u, flow_t flow, const int S, const int T) {
-        if(u == T || !flow) return flow;
-        flow_t w, used = 0;
-        for(auto &i = cur[u]; i != G[u].end(); i++) {
-            if(i -> f && dep[i -> to] == dep[u] - 1) {
-                w = dfs(i -> to, min(flow - used, i -> f), S, T);
-                i -> f -= w, G[i -> to][i -> rev].f += w;
-                used += w;
-            }
-            if(used == flow) return flow;
-        }
-        if(!--gap[dep[u]]) dep[S] = V + 1;
-        if(dep[u] <= V) ++dep[u];
-        ++gap[dep[u]], cur[u] = G[u].begin();
-        return used;
-    }
-
-    flow_t operator() (int S, int T) {
-        flow_t ans = 0;
-        BFS(T);
-        while(dep[S] <= V) {
-            for(int i = 1; i <= V; i++) cur[i] = G[i].begin();
-            ans += dfs(S, MAX_VAL, S, T);
-        }
-        return ans;
-    }
-};
-
-using LL = long long;
-
-LL solve() {
-    int n, m, c, d;
-    cin >> n >> m >> c >> d;
-
-    if(c == 0 || d == 0) {
-        return 0;
-    }
-
-    vector<pair<int, int>> edges;
-    vector<int> cntr(n), cntc(m);
-    for(int i = 0; i < n; i++) {
-        string qwq;
-        cin >> qwq;
-        for(int j = 0; j < m; j++) {
-            if(qwq[j] == '.') {
-                edges.emplace_back(i + 1, j + 1);
-                cntr[i]++;
-                cntc[j]++;
-            }
-        }
-    }
-
-    int L = 0, R = 0;
-    R = max(R, *max_element(cntr.begin(), cntr.end()));
-    R = max(R, *max_element(cntc.begin(), cntc.end()));
-
-    vector<LL> cache;
-    cache.assign(R + 2, -1);
-
-    auto get_ans = [&] (int x) {
-        if(cache[x] != -1) {
-            return cache[x];
-        }
-        
-        int S = n + m + 1, T = S + 1;
-        MaxFlow_ISAP sol(n + m + 2);
-        for(auto [l, r] : edges) {
-            sol.add_edge(l, n + r, 1);
-        }
-        for(int i = 1; i <= n; i++) {
-            sol.add_edge(S, i, x);
-        }
-        for(int i = 1; i <= m; i++) {
-            sol.add_edge(n + i, T, x);
-        }
-
-        LL ans = sol(S, T);
-        return cache[x] = (LL)c * x + d * (edges.size() - ans);
-    };
-
-    while(L <= R) {
-        int mid = (L + R) / 2;
-
-        LL cur_l = get_ans(mid);
-        LL cur_r = get_ans(mid + 1);
-
-        if(cur_l > cur_r) {
-            L = mid + 1;
-        } else {
-            R = mid - 1;
-        }
-    }
-
-    LL ans = numeric_limits<LL>::max();
-    for(LL val : cache) {
-        if(val != -1) {
-            ans = min(ans, val);
-        }
-    }
-
-    return ans;
-}
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    cout << solve() << "\n";
-    return 0;
-}
-
-```
+{{< highlight-content file="B.cpp" lang="cpp" >}}
 
 ### A. Bridge
 
@@ -377,444 +91,81 @@ int main() {
 
 考虑查询。类似倍增法 LCA 的查询，我们需要求出「在任何一场比赛中都跳不到 $y$ 及以前任意点的最大步数」。最后输出答案的时候需要 +2，分别对应跳到 y 之前的一步（最后一跳）以及在最后一跳落脚的比赛中跳到 $y$（最后一步）。单次查询的时间是 $O(m^2 \log n)$。
 
-```c++
-#include <bits/stdc++.h>
-using namespace std;
-
-const int MX = 100005;
-const int MXLG = 17;
-const int INF = 0x3F3F3F3F;
-
-int rnklist[5][MX], rnk[5][MX];
-int dp[MXLG + 1][MX][5];
-
-void update(int &a, int b) {
-    if(a == 0 || a > b) a = b;
-}
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n, m;
-    cin >> n >> m;
-
-    for(int i = 0; i < m; i++) {
-        for(int j = 1; j <= n; j++) {
-            int val;
-            cin >> val;
-            rnklist[i][j] = val;
-            rnk[i][val] = j;
-        }
-    }
-
-    for(int i = 0; i < m; i++) {
-        vector<bool> vised(n + 1);
-        vector<int> iter(m, 1);
-        for(int j = 1; j <= n; j++) {
-            int cur = rnklist[i][j];
-            for(int k = 0; k < m; k++) {
-                update(dp[0][cur][k], iter[k]);
-            }
-
-            vised[cur] = true;
-            for(int k = 0; k < m; k++) {
-                while(iter[k] <= n && vised[rnklist[k][iter[k]]]) iter[k]++;
-            }
-        }
-    }
-
-    for(int i = 1; i <= MXLG; i++) {
-        for(int j = 1; j <= n; j++) {
-            for(int k = 0; k < m; k++) {
-                int &cur = dp[i][j][k];
-                cur = dp[i - 1][j][k];
-                for(int l = 0; l < m; l++) {
-                    int tmp = dp[i - 1][j][l];
-                    if(tmp == n + 1) {
-                        assert(false);
-                    }
-                    tmp = rnklist[l][tmp];
-                    cur = min(cur, dp[i - 1][tmp][k]);
-                }
-            }
-        }
-    }
-
-    function<int(int, int)> solve = [&] (int x, int y) {
-        vector<int> point(m);
-        for(int i = 0; i < m; i++) {
-            if(rnk[i][x] < rnk[i][y]) {
-                return 1;
-            }
-            point[i] = x;
-        }
-
-        int ans = 0;
-        for(int i = MXLG; i >= 0; i--) {
-            vector<int> tmp = point;
-            for(int cur : point) {
-                for(int j = 0; j < m; j++) {
-                    int rk = dp[i][cur][j];
-                    if(rk < rnk[j][tmp[j]]) {
-                        tmp[j] = rnklist[j][rk];
-                    }
-                }
-            }
-
-            bool flag = false;
-            for(int j = 0; j < m; j++) {
-                if(rnk[j][tmp[j]] <= rnk[j][y]) {
-                    flag = true;
-                    break;
-                }
-            }
-
-            if(!flag) {
-                ans += 1 << i;
-                point = tmp;
-            }
-        }
-
-        return ans <= n ? ans + 2 : -1;
-    };
-
-    int q;
-    cin >> q;
-    while(q--) {
-        int x, y;
-        cin >> x >> y;
-        cout << solve(x, y) << "\n";
-    }
-
-    return 0;
-}
-
-```
+{{< highlight-content file="D.cpp" lang="cpp" >}}
 
 ### H. Power of Two
 
 中心思想是先用大部分操作凑一个 $0$ 出来，然后用剩下的 or 和 xor 把尽可能多的位置 1。这里面有一车细节，赛场上谁写谁 tm 是五星秘术师（
 
-先贴个代码，后面有时间补充分类讨论的过程。
+下面简单说说分类讨论的过程。为了方便描述，记 $d$ 表示给出的互不相同的 $c_i$ 的个数，而“奇数”和“偶数”分别指**给出次数**（而非 $c_i$ 本身）为奇数和偶数的 $c_i$。
 
-```c++
-#include <bits/stdc++.h>
-using namespace std;
+#### 两种平凡情形
 
-const int MX = 65536;
+1. 当 $y + z \leq d$，即 or 和 xor 的个数之和不多于 $d$ 时：\
+  显然我们需要用这些 or 和 xor 在最后把较高的那些位置成 $1$，在此之前消耗掉全部的 and 即可。
+2. 当 $y \geq d$，即 or 的个数不少于 $d$ 时：\
+  不论我们前期怎么乱用 and 和 xor，最后总有足够多的 or 把所有位置 $1$。
 
-void solve() {
-    int n, x, y, z;
-    cin >> n >> x >> y >> z;
+在后面的讨论中，我们总是假定 $y + z > d$ 以及 $y < d$。注意 $y + z > d$ 蕴含了至少存在一个 $c_i$ 出现了不止一次。
 
-    map<int, int> cnt;
-    for(int i = 1; i <= n; i++) {
-        int val;
-        cin >> val;
-        cnt[val]++;
-    }
+#### 只有两种运算的退化情形
 
-    // statistics
-    vector<int> odds, evens, gt1;
-    for(auto [key, value] : cnt) {
-        ((value & 1) ? odds : evens).push_back(key);
-        if(value > 1) {
-            gt1.push_back(key);
-        }
-    }
+不难发现 $z = 0$ 时一定会落入前述两种平凡情形之一，故这里并不需要专门讨论 $z = 0$。
 
-    string ans(n, '0'), op_array;
-    vector<int> op_num;
+##### 若 $x = 0$，即没有 and 操作
 
-    function<void(char, int)> update_answer = [&] (char c, int val) {
-        op_array.push_back(c);
-        op_num.push_back(val);
-    };
+在非平凡的情形下一定有 $y < d$，我们尝试将 or 分配给不同的 $c_i$。
 
-    function<int()> pop_answer = [&] {
-        int ret = op_num.back();
-        op_array.pop_back();
-        op_num.pop_back();
-        return ret;
-    };
+注意到 or 会无条件置 $1$，而 xor 只有在奇数次的时候才会置 $1$，因此一个很自然的想法是把 or 尽可能分给出现次数为偶数的数。
 
-    if(y + z <= cnt.size()) {       // or + xor <= #
-        for(auto &[key, val] : cnt) {
-            while(x > 0 && val > 1) {
-                update_answer('&', key);
-                val--, x--;
-            }
-        }
-        for(auto &[key, val] : cnt) {
-            if(x > 0) {
-                update_answer('&', key);
-                x--;
-            } else if(y > 0) {
-                update_answer('|', key);
-                ans[key] = '1';
-                y--;
-            } else {
-                update_answer('^', key);
-                ans[key] = '1';
-                z--;
-            }
-        }
-    } else if(y >= cnt.size()) {    // or >= #
-        for(auto &[key, val] : cnt) {
-            while(x > 0 && val > 1) {
-                update_answer('&', key);
-                val--, x--;
-            }
-            while(z > 0 && val > 1) {
-                update_answer('^', key);
-                val--, z--;
-            }
-        }
-        assert(x == 0 && z == 0);
-        for(auto &[key, val] : cnt) {
-            while(val--) {
-                update_answer('|', key);
-                ans[key] = '1';
-            }
-        }
-    } else if(x == 0) {             // only or + xor
-        while(y > 0 && !evens.empty()) {
-            int key = evens.back(), &value = cnt[key];
-            while(value > 1) {
-                update_answer('^', key);
-                value--;
-            }
-            update_answer('|', key);
-            y--, value--;
-            ans[key] = '1';
-            evens.pop_back();
-        }
-        for(int i = 0; i < y; i++) {
-            update_answer('|', odds[i]);
-            ans[odds[i]] = '1';
-            cnt[odds[i]]--;
-        }
+如果分配完偶数后 or 有剩余，那么可以把 or 当作 xor 分配给奇数；如果 or 不够给所有偶数，那么一定会有偶数因为分配到的操作全是 xor 使得对应位被置 $0$，我们自然希望分配到 or 的是最大的那些 $c_i$。
 
-        for(auto [key, value] : cnt) {
-            while(value--) {
-                update_answer('^', key);
-                ans[key] ^= 1;
-            }
-        }
-    } else if(y == 0) {             // only and + xor
-        z -= cnt.size();
-        if(gt1.size() == 1) {
-            if(z % 2 == 1) {
-                update_answer('&', cnt.begin()->first);
-                cnt.begin()->second--;
-                x--;
-            }
+##### 若 $y = 0$，即没有 or 操作
 
-            int special = gt1.front();
-            while(x > 0) {
-                update_answer('&', special);
-                x--, cnt[special]--;
-            }
+在非平凡情况下一定有 $z > d$，因此我们可以先取出 $d$ 个 xor 用于最后将所有位置 $1$。下面我们只考虑用 and 和剩下的 xor 凑出尽可能小的数。
 
-            for(auto &[key, value] : cnt) {
-                while(value--) {
-                    update_answer('^', key);
-                    ans[key] ^= 1;
-                }
-            }
-        } else if(x == 1) {
-            bool flag = false;
-            int special = gt1.front();
-            for(int key : gt1) {
-                if(cnt[key] % 2 == 0) {
-                    special = key;
-                    flag = true;
-                    break;
-                }
-            }
+最简单的情形是有至少 $2$ 个 $c_i$ 的出现次数大于 $1$（不妨设为 $c_1$ 和 $c_2$）且 and 操作至少有两个，此时我们有
+$$
+A \\operatorname{and} 2^{c_1} \\operatorname{and} 2^{c_2} = 0
+$$
+其中 $A$ 是其他数和运算符任意计算得到的结果。
 
-            if(flag) {              // xor sum != 0
-                cnt[special]--;
-                for(int key : gt1) {
-                    int &value = cnt[key];
-                    while(value > 1) {
-                        update_answer('^', key);
-                        value--;
-                    }
-                }
-                update_answer('&', special);
-                for(auto [key, _] : cnt) {
-                    update_answer('^', key);
-                    ans[key] = '1';
-                }
-            } else {
-                update_answer('&', cnt.begin()->first);
-                cnt.begin()->second--;
-                for(auto [key, value] : cnt) {
-                    while(value--) {
-                        update_answer('^', key);
-                        ans[key] ^= 1;
-                    }
-                }
-            }
-        } else {
-            cnt[gt1.front()]--;
-            cnt[gt1.back()]--;
-            x -= 2;
+如果只有一个数出现多于一次，那么余下部分的结果仅与 xor 操作次数的奇偶性有关。当该结果非零时可以通过调整使得被置 $1$ 的位在最小的 $c_i$ 处。
 
-            for(int key : gt1) {
-                int &value = cnt[key];
-                while(value > 1) {
-                    if(z > 0) {
-                        update_answer('^', key);
-                        z--;
-                    } else {
-                        update_answer('&', key);
-                        x--;
-                    }
-                    value--;
-                }
-            }
+如果 and 操作只有一个，那么余下的结果应该依赖于 $\> 1$ 部分的异或和。若异或和的 $c_i$ 位不为 $0$，则可以通过将 $2^{c_i}$ 和剩下的异或和 and 起来凑出一个 $0$。否则，无论怎么用这个 and 都无法得到 $0$，这时我们退而求其次将出现多余 $1$ 次的最小的 $c_i$ 置 $1$。
 
-            update_answer('&', gt1.front());
-            update_answer('&', gt1.back());
-            for(auto [key, _] : cnt) {
-                update_answer('^', key);
-                ans[key] = '1';
-            }
-        }
-    } else {                        // or + xor > # && or < #
-        z -= cnt.size() - y;
-        if(y >= evens.size()) {     // or >= #evens
-            sort(odds.begin(), odds.end(), [&] (int u, int v) {
-                return cnt[u] > cnt[v];
-            });
-            
-            for(int key : evens) {
-                int &value = cnt[key];
-                while(z > 0 && value > 1) {
-                    update_answer('^', key);
-                    z--, value--;
-                }
-            }
+#### 其他情形
 
-            y -= evens.size();
-            for(int i = 0; i < y; i++) {
-                int key = odds[i], &value = cnt[key];
-                while(z > 0 && value > 1) {
-                    update_answer('^', key);
-                    z--, value--;
-                }
-            }
+正如前面所分析的，因为 $y < d$，我们希望把 or 分配给不同的 $c_i$，且这些 $c_i$ 最好是偶数。这时就会出现两种情况：or 操作有剩余或偶数有剩余。
 
-            if(z != 0) {                        // xor left
-                if(z % 2 == 1) {
-                    z++, cnt[pop_answer()]++;
-                }
-                for(int i = y; i < odds.size(); i++) {
-                    int key = odds[i], &value = cnt[key];
-                    while(value > 1 && z > 0) {
-                        update_answer('^', key);
-                        value--, z--;
-                    }
-                }
-            }
-            assert(z == 0);
+当然，我们的大思路仍然是先用剩余操作尽量凑出 $0$，再用上述 or 和 xor 将所有位置 $1$。
 
-            for(auto &[key, value] : cnt) {
-                while(x > 0 && value > 1) {
-                    update_answer('&', key);
-                    x--, value--;
-                }
-            }
-            assert(x == 0);
+##### or 操作有剩余
 
-            for(int key : evens) {
-                update_answer('|', key);
-                ans[key] = '1';
-            }
-            for(int i = 0; i < odds.size(); i++) {
-                update_answer(i < y ? '|' : '^', odds[i]);
-                ans[odds[i]] = '1';
-            }
-        } else {                    // not too bad
-            sort(evens.begin(), evens.end(), [&] (int u, int v) {
-                return cnt[u] < cnt[v];
-            });
+这就意味着必然有必然有一部分奇数被分配到一个 or。
 
-            if(z % 2 == 1) {
-                int key = evens.back();
-                update_answer('^', key);
-                cnt[key]--;
-                z--;
-            }
+令 $E$ 表示偶数集合，$O_o$ 和 $O_x$ 分别表示被分配到 or 的奇数集合和其他奇数集合。
 
-            for(int key : odds) {
-                int &value = cnt[key];
-                while(z > 0 && value > 1) {
-                    update_answer('^', key);
-                    z--, value--;
-                }
-            }
+显然 $E$ 和 $O_o$ 中 $\> 1$ 的部分可以随意填 xor，但 $O_x$ 中每个数必须被分配到偶数个 xor（不含预留的那个）。
 
-            y = evens.size() - y;
-            for(int i = 0; i < evens.size(); i++) {
-                int key = evens[i], &value = cnt[key];
-                while(z > 0 && value > 1 + (i < y)) {
-                    update_answer('^', key);
-                    z--, value--;
-                }
-            }
+我们可以尽量先用 $E$ 和 $O_o$ 消耗 xor。如果 xor 还有剩余，易知 $O_x$ 消耗的 xor 数量一定是偶数，因此当不满足这一条件的时候需要从 $E$ 或 $O_o$ 中还回来一个 xor（$|E| + |O_o| = y > 0$ 保证了一定有的还）。
 
-            for(int i = 0; i < y; i++) {
-                int key = evens[i], &value = cnt[key];
-                while(z > 0 && value > 1) {
-                    assert(value == 2);
-                    update_answer('^', key);
-                    z--, value--;
-                }
-            }
+这之后的所有空位全填 and 即可。易知这样凑出来的结果恰好达到理论上界（即所有位置 $1$）。
 
-            for(auto &[key, value] : cnt) {
-                while(x > 0 && value > 1) {
-                    update_answer('&', key);
-                    value--, x--;
-                }
-            }
-            assert(x == 0);
+##### 偶数有剩余
 
-            for(int key : odds) {
-                update_answer('^', key);
-                ans[key] = '1';
-            }
-            for(int i = 0; i < evens.size(); i++) {
-                update_answer(i < y ? '^' : '|', evens[i]);
-                ans[evens[i]] = '1';
-            }
-        }
-    }
+这就意味着必然有必然有一部分偶数被分配到一个 xor。
 
-    reverse(ans.begin(), ans.end());
-    cout << ans << "\n" << op_array << "\n";
-    for(int val : op_num) {
-        cout << val << ' ';
-    }
-    cout << "\n";
-}
+令 $E_o$ 和 $E_x$ 分别表示被分配到 or 和 xor 的偶数集合，$O$ 为奇数集合。类似地，$E_o$ 中 $\> 1$ 的部分可以随意填 xor，但 $E_x$ 和 $O$ 中必须配对填。
 
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+我们尝试优先消耗 $O$ 以及 $E_x$ 贡献的 xor 位，如果还有剩余则消耗 $E_o$ 位。
 
-    int t;
-    cin >> t;
-    while(t--) {
-        solve();
-    }
-    return 0;
-}
+这样三轮消耗之后，剩余的空位有且仅有 $E_x$ 中的每数一个。无论此时 xor 位是否有剩余，由于还剩下至少一个 and 没有用，随便怎么填结果都是最大值。
 
-```
+---
+
+下面是本题的完整代码。
+
+{{< highlight-content file="H.cpp" lang="cpp" >}}
 
 剩下的 I 和 K 等有缘再补吧（

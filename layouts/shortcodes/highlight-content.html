@@ -1,0 +1,5 @@
+{{ if (isset .Params "args") }}
+    {{ highlight (.Page.Resources.GetMatch (.Get "file")).Content (.Get "lang") (.Get "args") }}
+{{ else }}
+    {{ highlight (.Page.Resources.GetMatch (.Get "file")).Content (.Get "lang") "linenos=table" }}
+{{ end }}
