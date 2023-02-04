@@ -8,10 +8,10 @@ tags:
 categories:
   - ICPC
 
-description: Burnside 引理的推广。
+description: Burnside 引理的推广
 draft: false
 
-lastmod: 2023-01-25
+lastmod: 2023-02-04
 ---
 
 ## 题目大意
