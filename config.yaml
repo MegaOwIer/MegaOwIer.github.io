@@ -1,6 +1,6 @@
 baseurl: https://blog.megaowier.cc
 languageCode: zh-cn
-paginate: 25
+paginate: 20
 title: "MegaOwIer's Blog"
 
 theme:
@@ -96,9 +96,6 @@ params:
   widgets:
     homepage:
       - type: search
-      - type: archives
-        params:
-          limit: 5
       - type: categories
         params:
           limit: 10
