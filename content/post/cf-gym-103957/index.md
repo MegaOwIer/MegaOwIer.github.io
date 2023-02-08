@@ -11,7 +11,7 @@ tags:
 categories:
   - ICPC
 
-description: 为我的算法竞赛筹划一场尽量完美的告别仪式。
+description: EC-Final 2022 赛前例行训练
 draft: false
 
 image: pixiv-61597814.jpg
