@@ -4,7 +4,10 @@ slug: cf-gym-103466
 date: 2023-02-14
 
 tags:
+  - Data Structure
+  - Divide and Conquer
   - DP
+  - Flow Network
   - Maths
 categories:
   - ICPC
