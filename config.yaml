@@ -58,8 +58,9 @@ params:
   sidebar:
     emoji: 💤
     subtitle: |
-      人大计算机专业本科在读。
-      算法竞赛选手。
+      人大计算机专业本科<br>
+      上交软工硕士在读<br>
+      前算法竞赛选手
     avatar:
       enabled: true
       local: true
@@ -76,12 +77,6 @@ params:
   comments:
     enabled: true
     provider: giscus
-    gitalk:
-      owner: MegaOwIer
-      admin: MegaOwIer
-      repo: MegaOwIer.github.io
-      clientID: __clientID__
-      clientSecret: __clientSecret__
     giscus:
       repo: MegaOwIer/MegaOwIer.github.io
       repoID: R_kgDOIL05cA
