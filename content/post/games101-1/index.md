@@ -8,7 +8,7 @@ categories:
   - SJTU
 description: 主要还是 review 一下之前写的作业代码
 draft: true
-lastmod: 2023-12-03
+lastmod: 2024-02-04
 ---
 
 ## MVP 变换
@@ -31,7 +31,7 @@ Projection 所做的工作是透视投影，课上将其分成两个小步：先
 
 代码模板里关于深度插值的代码段大概长成这样
 
-```c++
+```c++ {linenos=table}
 auto [alpha, beta, gamma] = computeBarycentric2D(x, y, t.v);
 float w_reciprocal = 1.0 / (alpha / v[0].w() + beta / v[1].w() + gamma / v[2].w());
 float z_interpolated = alpha * v[0].z() / v[0].w() + beta * v[1].z() / v[1].w() + gamma * v[2].z() / v[2].w();
@@ -61,7 +61,7 @@ z_interpolated *= w_reciprocal;
 
 这里给出一种可能的构造方式，证明从略。
 
-```c++
+```c++ {linenos=table}
 Eigen::Vector3f _x, _y;
 if (_n.x() == 0) {
     _x << 0, -_n.z(), _n.y();
