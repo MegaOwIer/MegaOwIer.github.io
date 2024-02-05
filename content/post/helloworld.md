@@ -5,7 +5,7 @@ date: 2021-08-25
 draft: false
 toc: false
 description: 同时也是重要更新日志
-lastmod: 2023-02-08
+lastmod: 2024-02-05
 ---
 
 鸽了好几年了，总算是把这个博客搭起来了…
@@ -14,13 +14,19 @@ lastmod: 2023-02-08
 
 可能会在这里根据心情写一些东西，比如题解之类的。
 
-### 关于文章封面
+### 关于文章封面与背景
 
-文章的封面图大多出自 Pixiv，可前往本博客的 [Github Repo](https://github.com/MegaOwIer/MegaOwIer.github.io/tree/master/content/post) 的对应目录下查看 Pixiv ID。其他来源的封面图会在文章中注明。
+文章的封面图与网站背景图大多出自 Pixiv。
 
-若您认为某张图片的使用侵犯了您或他人的著作权，或是违反了引用规范，请在相应文章下评论或直接邮件联系。
+文章封面图的 Pixiv ID 可前往本博客的 [Github Repo](https://github.com/MegaOwIer/MegaOwIer.github.io/tree/master/content/post) 的对应目录下查看，当前展示的网站背景图的 Pixiv ID 可打开网页控制台查看。其他来源的图片会以来源地址等形式在上述位置注明。
+
+若您认为某张图片的使用侵犯了您或他人的著作权，或是违反了引用规范，请在通过本文评论区、相应文章评论区或网站右侧邮箱图标的方式进行反馈，本人将尽快回复并处理。
 
 ### 更新日志
+
+**2024.02.04 更新**：将网站背景由纯色替换为随机插画。
+
+**2023.12.27 更新**：新增 `robots.txt`。
 
 **2023.02.08 更新**：新增类似 Bootstrap 5 中的 `card` 组件。
 
