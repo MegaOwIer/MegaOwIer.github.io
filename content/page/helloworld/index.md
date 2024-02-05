@@ -1,11 +1,17 @@
 ---
 title: Hello World
+menu:
+  main:
+    name: About
+    weight: -40
+    params: 
+      icon: info-circle
+license: false
+
 slug: hello-world
 date: 2021-08-25
-draft: false
 toc: false
 description: 同时也是重要更新日志
-lastmod: 2024-02-05
 ---
 
 鸽了好几年了，总算是把这个博客搭起来了…
