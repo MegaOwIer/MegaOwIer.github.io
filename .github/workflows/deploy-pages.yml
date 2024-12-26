@@ -39,7 +39,7 @@ jobs:
         with:
           hugo-version: 'latest'
           extended: true
-      - name: Setup Gitalk
+      - name: Setup Google Analytics
         env:
           GAID: ${{ secrets.googleAnalytics }}
         run: |

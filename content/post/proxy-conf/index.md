@@ -2,7 +2,7 @@
 title: 校园网 IPv6 免流量上网配置过程
 slug: proxy-conf
 date: 2022-10-11
-lastmod: 2024-02-04
+lastmod: 2024-06-21
 tags:
   - Network
   - Linux
@@ -89,11 +89,7 @@ AttributeError: module 'collections' has no attribute 'MutableMapping'
 
 出于安全考虑，运营商分配的公网地址大概率不是静态的，为了保证长期相对稳定的使用体验还需要配一下 DDNS。
 
-相关教程网上一搜一大堆，我自己用的基于 Cloudflare 的方案，至于脚本早就忘了从哪个教程贴偷的了。贴到这里供有需要的人使用。
-
-{{< highlight-content file="ddns-cloudflare.sh" lang="sh" >}}
-
-使用时候注意修改前几行的信息即可。至于 `zone_name` 和 `record_name` 的区别，举个例子，假设你的域名是 `example.com`，然后你打算给你的代理服务器分配 `proxy.example.com`，则 `zone_name` 填 `example.com`，`record_name` 填 `proxy.example.com`。
+相关教程网上一搜一大堆，我自己用的基于 Cloudflare 的方案，具体的用法可以参考[这个 Github 仓库](https://github.com/wherelse/cloudflare-ddns-script)。
 
 ## 后记
 

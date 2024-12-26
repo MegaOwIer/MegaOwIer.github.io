@@ -2,14 +2,14 @@
 title: 挂载交换分区并安装 Home Assistant
 slug: home-assistant
 date: 2024-02-04
-lastmod: 2024-02-05
+lastmod: 2024-12-27
 tags:
   - HomeAssistant
   - Linux
 categories:
   - DIY
 description: 压榨吃灰树莓派的剩余价值（四）
-draft: true
+draft: false
 ---
 
 寒假回到家，突然意识到一个事情：如果我把树莓派单纯用来当 NAS，那两百块钱不到的工控机也可以做这件事，当初完全没必要花四五百买树莓派。
@@ -96,7 +96,7 @@ sudo swapon /dev/sdb1
 
 ### 永久挂载
 
-与之前[讲硬盘挂载的那篇文章]({{< ref "/network-fs" >}})类似，我们还需要在 `/etc/fstab` 里配置一下使得这个新的分区能在每次重启后挂载。`UUID` 参考前述文章获取，挂载点和文件系统都填 `swap`，最后两个参数都填 `0`。
+与之前[讲硬盘挂载的那篇文章]({{< ref "/post/network-fs" >}})类似，我们还需要在 `/etc/fstab` 里配置一下使得这个新的分区能在每次重启后挂载。`UUID` 参考前述文章获取，挂载点和文件系统都填 `swap`，最后两个参数都填 `0`。
 
 ## 安装 Home Assistant
 

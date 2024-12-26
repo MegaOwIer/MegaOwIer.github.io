@@ -2,7 +2,6 @@
 title: 2015 ICPC EC-Final (Gym 103957) 训练记录
 slug: cf-gym-103957
 date: 2023-01-10
-
 tags:
   - Binary Search
   - DP
@@ -10,12 +9,10 @@ tags:
   - Maths
 categories:
   - ICPC
-
 description: EC-Final 2022 赛前例行训练
 draft: false
-
 image: pixiv-61597814.jpg
-lastmod: 2023-01-25
+lastmod: 2024-12-27
 ---
 
 ## 正式训练
@@ -81,7 +78,7 @@ $$
 
 ### E. Colorful Floor
 
-实际上手做了之后感觉两三句话说不清楚，因此[新开了一篇文章专门讲这个]({{< ref "/cf-gym-103957e" >}})。
+实际上手做了之后感觉两三句话说不清楚，因此[新开了一篇文章专门讲这个]({{< ref "/post/cf-gym-103957e" >}})。
 
 ---
 
