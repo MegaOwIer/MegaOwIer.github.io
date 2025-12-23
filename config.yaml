@@ -91,7 +91,7 @@ params:
       reactionsEnabled: 1
       emitMetadata: 0
       inputPosition:
-      lang: zh-cn
+      lang: en
 
 
   widgets:
